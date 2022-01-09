@@ -8,6 +8,14 @@ const morgan = require("morgan");
 const userRoute = require("./routes/user");
 const postRoute = require("./routes/post");
 const commentRoute = require("./routes/comment");
+const db = require("./models");
+
+db.sequelize
+  .sync()
+  .then(() => {
+    console.log("db 연결 성공");
+  })
+  .catch(console.error);
 
 dotenv.config();
 app.use(morgan("dev"));
@@ -30,6 +38,7 @@ app.use("/user", userRoute);
 app.use("/post", postRoute);
 app.use("/comment", commentRoute);
 
-app.listen(3060, () => {
+const port = process.env.PORT || 3060;
+app.listen(port, () => {
   console.log("server is running on port 3060");
 });
